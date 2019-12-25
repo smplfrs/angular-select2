@@ -1,0 +1,1 @@
+# angular-select2
