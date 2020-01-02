@@ -1,0 +1,13 @@
+{
+  "name": "smpl-select2",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "8.2.14",
+    "@angular/core": "8.2.14",
+    "jquery": "3.4.1",
+    "select2": "^4.0.12"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {}
+}
