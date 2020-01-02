@@ -6,7 +6,8 @@
 </select>
 
 <h5>Dynamic data</h5>
-<select smpl-select2 [dataSource]="simpleDataSource" style="width: 150px;" (select)="selectOption($event)"></select>
+<select smpl-select2 [dataSource]="simpleDataSource" valueProperty="value" displayProperty="title" style="width: 150px;"
+  (select)="selectOption($event)"></select>
 
 <h5>Async data source</h5>
 <select smpl-select2 [dataSource]="asyncDataSource" style="width: 150px;" (select)="selectOption($event)"></select>

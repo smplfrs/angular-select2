@@ -16,10 +16,10 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.simpleDataSource = {
       data: [
-        { id: 1, text: 'Option 1' },
-        { id: 2, text: 'Option 2' },
-        { id: 3, text: 'Option 3' },
-        { id: 4, text: 'Option 4' }
+        { value: 1, title: 'Option 1' },
+        { value: 2, title: 'Option 2' },
+        { value: 3, title: 'Option 3' },
+        { value: 4, title: 'Option 4' }
       ]
     };
 
