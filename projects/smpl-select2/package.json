@@ -1,6 +1,20 @@
 {
-  "name": "smpl-select2",
+  "name": "@smplfrs/angular-select2",
   "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/smplfrs/angular-select2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/smplfrs/angular-select2/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "angular",
+    "select2",
+    "typescript",
+    "directive"
+  ],
   "peerDependencies": {
     "@angular/common": "^8.2.14",
     "@angular/core": "^8.2.14",

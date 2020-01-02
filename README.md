@@ -1,27 +1,77 @@
-# AngularSelect2
+# Prerequisites
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.5.
+Install [JQuery](https://www.npmjs.com/package/jquery)
+```
+npm i -s jquery
+```
 
-## Development server
+Include JQuery in your `angular.json` file
+```
+"scripts": [
+  "node_modules/jquery/dist/jquery.js"
+],
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+# Installation
 
-## Code scaffolding
+Install package
+```
+npm i @smplfrs/smpl-select2
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Include default styles in your `angular.json` file
+```
+"styles": [
+  "node_modules/select2/dist/css/select2.min.css"
+],
+```
 
-## Build
+# Usage
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Static options
+```html
+<select smpl-select2 [static]="true">
+  <option value="1">Option 1</option>
+  <option value="2">Option 2</option>
+  <option value="3">Option 3</option>
+</select>
+```
 
-## Running unit tests
+## Dynamic options
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+HTML
+```html
+<select smpl-select2 [dataSource]="dataSource">
+</select>
+```
 
-## Running end-to-end tests
+TS
+```javascript
+dataSource = {
+  data: [
+    { id: 1, text: 'Option 1' },
+    { id: 2, text: 'Option 2' },
+    { id: 3, text: 'Option 3' }
+  ]
+};
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Async data source
 
-## Further help
+HTML
+```html
+<select smpl-select2 [dataSource]="dataSource">
+</select>
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+TS
+```javascript
+dataSource = {
+  ajaxFn: of([
+    { id: 1, text: 'Option 1' },
+    { id: 2, text: 'Option 2' },
+    { id: 3, text: 'Option 3' }
+  ]),
+  ajaxDelay: 1000
+};
+```

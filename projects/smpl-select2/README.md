@@ -1,24 +1,77 @@
-# SmplSelect2
+# Prerequisites
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.14.
+Install [JQuery](https://www.npmjs.com/package/jquery)
+```
+npm i -s jquery
+```
 
-## Code scaffolding
+Include JQuery in your `angular.json` file
+```
+"scripts": [
+  "node_modules/jquery/dist/jquery.js"
+],
+```
 
-Run `ng generate component component-name --project smpl-select2` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project smpl-select2`.
-> Note: Don't forget to add `--project smpl-select2` or else it will be added to the default project in your `angular.json` file. 
+# Installation
 
-## Build
+Install package
+```
+npm i @smplfrs/smpl-select2
+```
 
-Run `ng build smpl-select2` to build the project. The build artifacts will be stored in the `dist/` directory.
+Include default styles in your `angular.json` file
+```
+"styles": [
+  "node_modules/select2/dist/css/select2.min.css"
+],
+```
 
-## Publishing
+# Usage
 
-After building your library with `ng build smpl-select2`, go to the dist folder `cd dist/smpl-select2` and run `npm publish`.
+## Static options
+```html
+<select smpl-select2 [static]="true">
+  <option value="1">Option 1</option>
+  <option value="2">Option 2</option>
+  <option value="3">Option 3</option>
+</select>
+```
 
-## Running unit tests
+## Dynamic options
 
-Run `ng test smpl-select2` to execute the unit tests via [Karma](https://karma-runner.github.io).
+HTML
+```html
+<select smpl-select2 [dataSource]="dataSource">
+</select>
+```
 
-## Further help
+TS
+```javascript
+dataSource = {
+  data: [
+    { id: 1, text: 'Option 1' },
+    { id: 2, text: 'Option 2' },
+    { id: 3, text: 'Option 3' }
+  ]
+};
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## Async data source
+
+HTML
+```html
+<select smpl-select2 [dataSource]="dataSource">
+</select>
+```
+
+TS
+```javascript
+dataSource = {
+  ajaxFn: of([
+    { id: 1, text: 'Option 1' },
+    { id: 2, text: 'Option 2' },
+    { id: 3, text: 'Option 3' }
+  ]),
+  ajaxDelay: 1000
+};
+```
