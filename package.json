@@ -21,7 +21,6 @@
     "@angular/router": "8.2.7",
     "jquery": "3.4.1",
     "rxjs": "6.4.0",
-    "select2": "^4.0.12",
     "smpl-select2": "file:dist/smpl-select2",
     "tslib": "1.10.0",
     "zone.js": "0.9.1"

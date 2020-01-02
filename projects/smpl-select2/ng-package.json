@@ -3,5 +3,9 @@
   "dest": "../../dist/smpl-select2",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": [
+    "tslib",
+    "select2"
+  ]
 }
