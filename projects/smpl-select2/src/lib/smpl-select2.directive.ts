@@ -55,7 +55,13 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this._setup();
+    if (changes.configOptions && !changes.configOptions.firstChange) {
+      this._setup();
+    }
+
+    if (changes.dataSource && !changes.dataSource.firstChange) {
+      this._renderData();
+    }
   }
 
   ngOnDestroy(): void {
@@ -108,7 +114,7 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
     this._setupTemplateResultFunction();
     this._setupTemplateSelectionFunction();
 
-    this._renderOptions();
+    this._renderData();
   }
 
   private _initConfigOptions(): void {
@@ -169,12 +175,12 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
     };
   }
 
-  private _renderOptions(): void {
+  private _renderData(): void {
     if (this.dataSource) {
       this._setupDataSource();
     }
 
-    this._render();
+    this._renderComponent();
   }
 
   private _setupDataSource(): void {
@@ -235,7 +241,7 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
     });
   }
 
-  private _render(): void {
+  private _renderComponent(): void {
     this._initializeSelect2(this.configOptions);
     this._triggerChange(this._value);
   }
