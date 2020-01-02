@@ -15,7 +15,7 @@ import 'select2';
     }
   ]
 })
-export class SmplSelect2Directive implements OnInit, OnChanges, ControlValueAccessor, OnDestroy {
+export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
 
   @Input('smpl-select2') configOptions: Select2Config;
 
@@ -51,11 +51,11 @@ export class SmplSelect2Directive implements OnInit, OnChanges, ControlValueAcce
   ) { }
 
   ngOnInit(): void {
-    this._init();
+    this._setup();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this._init();
+    this._setup();
   }
 
   ngOnDestroy(): void {
@@ -65,6 +65,13 @@ export class SmplSelect2Directive implements OnInit, OnChanges, ControlValueAcce
   }
 
   writeValue(newValue: any): void {
+
+    if (this.staticOptionData) {
+      this.value = newValue;
+      this.onSelect.emit(newValue);
+      return;
+    }
+
     // ignore old callback to avoid value conflict
     if (this._dataSourceReadySubscription) {
       this._dataSourceReadySubscription.unsubscribe();
@@ -91,7 +98,7 @@ export class SmplSelect2Directive implements OnInit, OnChanges, ControlValueAcce
     this._onTouched = fn;
   }
 
-  private _init() {
+  private _setup() {
 
     this._initConfigOptions();
 
@@ -101,7 +108,7 @@ export class SmplSelect2Directive implements OnInit, OnChanges, ControlValueAcce
     this._setupTemplateResultFunction();
     this._setupTemplateSelectionFunction();
 
-    this._setupDataSource();
+    this._renderOptions();
   }
 
   private _initConfigOptions(): void {
@@ -162,28 +169,25 @@ export class SmplSelect2Directive implements OnInit, OnChanges, ControlValueAcce
     };
   }
 
-  private _setupDataSource(): void {
-    if (!this.dataSource) {
-      this._renderSelect2(this.configOptions);
-      return;
+  private _renderOptions(): void {
+    if (this.dataSource) {
+      this._setupDataSource();
     }
 
+    this._render();
+  }
+
+  private _setupDataSource(): void {
+    // start a new data source setup process
     if (this._dataSourceReadySubject.value) {
       this._dataSourceReadySubject.next(false);
-    }
-
-    if (!this.dataSource.ajaxFn) {
-      this._renderDataItems(this.dataSource.data);
-      return;
     }
 
     if (this.dataSource.ajaxFn) {
       this._buildAsyncDataSource(this.dataSource);
     }
 
-    this.dataSource.ajaxFn.subscribe((data: any[]) => {
-      this._renderDataItems(data);
-    });
+    this._setDataSource(this.dataSource.data);
   }
 
   private _buildAsyncDataSource(dataSource: Select2DataSource): void {
@@ -202,17 +206,14 @@ export class SmplSelect2Directive implements OnInit, OnChanges, ControlValueAcce
       },
       transport: (params, success, failure) => {
         dataSource.ajaxFn.subscribe(
-          (data) => success(data),
+          (data) => {
+            this.configOptions.data = data;
+            success(data);
+          },
           (error) => failure(error)
         );
       }
     };
-  }
-
-  private _renderDataItems(data: any[]): void {
-    this._setDataSource(data);
-    this._renderSelect2(this.configOptions);
-    this._triggerChange(this._value);
   }
 
   private _setDataSource(data: any[]): void {
@@ -234,15 +235,16 @@ export class SmplSelect2Directive implements OnInit, OnChanges, ControlValueAcce
     });
   }
 
-  private _triggerChange(value: any): void {
-    $(this._el.nativeElement).val(value).trigger('change');
+  private _render(): void {
+    this._initializeSelect2(this.configOptions);
+    this._triggerChange(this._value);
   }
 
-  private _renderSelect2(options: Select2Config): void {
+  private _initializeSelect2(options: Select2Config): void {
     const $element = $(this._el.nativeElement);
 
     if (!this.staticOptionData) {
-      // keep the empty option to show placeholder if any
+      // keep the empty option to show placeholder (if any)
       $element.find('option').not(':first-child:not([value])').remove();
     }
 
@@ -252,6 +254,10 @@ export class SmplSelect2Directive implements OnInit, OnChanges, ControlValueAcce
     }
 
     $element.select2(options);
+  }
+
+  private _triggerChange(value: any): void {
+    $(this._el.nativeElement).val(value).trigger('change');
   }
 
 }

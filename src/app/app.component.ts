@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Select2DataSource } from 'smpl-select2';
 import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'smpl-root',
@@ -24,7 +25,9 @@ export class AppComponent {
       { id: 2, text: 'Option 2' },
       { id: 3, text: 'Option 3' },
       { id: 4, text: 'Option 4' }
-    ]),
+    ]).pipe(
+      delay(2000)
+    ),
     ajaxDelay: 1000
   }
 
