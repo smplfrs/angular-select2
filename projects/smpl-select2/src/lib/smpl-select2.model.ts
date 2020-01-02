@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 
 export interface Select2Config {
   allowClear?: boolean;
-  placeholder?: string | ISelect2Option;
+  placeholder?: string;
 
   disabled?: boolean;
   multiple?: boolean;
@@ -27,15 +27,16 @@ export interface Select2Config {
 export interface Select2DataSource {
   data?: any[];
 
-  ajaxFn?: Observable<any>;
+  ajaxFn?: Observable<any[]>;
   ajaxDelay?: number;
-  transformFn?: (data: any[]) => ISelect2Option[];
+
+  dataTransformFn?: (data: any[]) => Select2Option[];
 }
 
-export interface ISelect2Option {
+export interface Select2Option {
   id: any;
   text: any;
   selected?: boolean;
   disabled?: boolean;
-  children?: ISelect2Option[];
+  children?: Select2Option[];
 }

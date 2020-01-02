@@ -1,13 +1,14 @@
 <h5>Static options</h5>
-<select smpl-select2 [static]="true" style="width: 150px;" (select)="selectOption($event)">
+<select smpl-select2 [static]="true" style="width: 200px;" (select)="selectOption($event)">
   <option value="1">Option 1</option>
   <option value="2">Option 2</option>
   <option value="3">Option 3</option>
 </select>
 
 <h5>Dynamic data</h5>
-<select smpl-select2 [dataSource]="simpleDataSource" valueProperty="value" displayProperty="title" style="width: 150px;"
+<select smpl-select2 [dataSource]="simpleDataSource" valueProperty="value" displayProperty="title" style="width: 200px;"
   (select)="selectOption($event)"></select>
 
 <h5>Async data source</h5>
-<select smpl-select2 [dataSource]="asyncDataSource" style="width: 150px;" (select)="selectOption($event)"></select>
+<select smpl-select2 [dataSource]="asyncDataSource" placeholder="Type something..." style="width: 200px;"
+  (select)="selectOption($event)"></select>

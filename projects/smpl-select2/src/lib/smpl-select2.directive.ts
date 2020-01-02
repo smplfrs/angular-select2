@@ -19,12 +19,14 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
 
   @Input('smpl-select2') configOptions: Select2Config;
 
-  @Input() dataSource: Select2DataSource;
-
   @Input('static') staticOptionData: boolean = false;
+
+  @Input() dataSource: Select2DataSource;
 
   @Input() displayProperty: string = 'text';
   @Input() valueProperty: string = 'id';
+
+  @Input() placeholder: string = '(NONE)';
 
   @Output('select') onSelect: EventEmitter<any> = new EventEmitter();
   @Output('unselect') onUnselect: EventEmitter<any> = new EventEmitter();
@@ -119,7 +121,7 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
 
   private _initConfigOptions(): void {
     const defaultOptions = {
-      placeholder: '(NONE)',
+      placeholder: this.placeholder,
       allowClear: true,
       theme: 'classic',
       width: 'resolve'
@@ -228,7 +230,7 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
   }
 
   private _transformData(data: any[]): any[] {
-    const dataTransformFn = this.dataSource.transformFn || this._defaultDataTransformFn.bind(this);
+    const dataTransformFn = this.dataSource.dataTransformFn || this._defaultDataTransformFn.bind(this);
     return dataTransformFn(data);
   }
 
