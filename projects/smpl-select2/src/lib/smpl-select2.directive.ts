@@ -178,7 +178,7 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
   }
 
   private _renderData(): void {
-    if (this.dataSource) {
+    if (!this.staticOptionData) {
       this._setupDataSource();
     }
 
@@ -186,6 +186,8 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
   }
 
   private _setupDataSource(): void {
+    this.dataSource = this.dataSource || {};
+
     // start a new data source setup process
     if (this._dataSourceReadySubject.value) {
       this._dataSourceReadySubject.next(false);

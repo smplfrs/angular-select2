@@ -7,9 +7,7 @@ export interface Select2Config {
   disabled?: boolean;
   multiple?: boolean;
   selectOnClose?: boolean;
-
-  width?: string;
-  theme?: string;
+  closeOnSelect?: boolean;
 
   maximumInputLength?: number;
   maximumSelectionLength?: number;
@@ -17,11 +15,23 @@ export interface Select2Config {
   minimumResultsForSearch?: number;
 
   data?: any[];
-
   ajax?: any;
+  sorter?: (data: any[]) => any[];
 
+  escapeMarkup?: (item: any) => string;
   templateResult?: (item: any) => string;
   templateSelection?: (item: any) => string;
+
+  containerCss?: any;
+  containerCssClass?: string;
+  dropdownCss?: any;
+  dropdownCssClass?: string;
+  
+  dropdownAutoWidth?: boolean;
+
+  width?: string;
+  theme?: string;
+  language?: string;
 }
 
 export interface Select2DataSource {
