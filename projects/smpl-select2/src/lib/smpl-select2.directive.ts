@@ -6,7 +6,7 @@ import $ from 'jquery';
 import 'select2';
 
 @Directive({
-  selector: '[smpl-select2]',
+  selector: '[smplSelect2]',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -17,7 +17,7 @@ import 'select2';
 })
 export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
 
-  @Input('smpl-select2') configOptions: Select2Config;
+  @Input('smplSelect2') configOptions: Select2Config;
 
   @Input('static') staticOptionData: boolean = false;
 

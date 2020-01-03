@@ -16,7 +16,7 @@ Include JQuery in your `angular.json` file
 
 Install package
 ```
-npm i @smplfrs/smpl-select2
+npm i @smplfrs/angular-select2
 ```
 
 Include default styles in your `angular.json` file
