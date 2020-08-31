@@ -1,6 +1,10 @@
 {
+  "$schema": "./node_modules/ng-packagr/package.schema.json",
   "name": "@smplfrs/angular-select2",
-  "version": "0.0.1-beta.1",
+  "version": "0.0.1-beta.2",
+  "scripts": {
+    "build": "ng-packagr -p package.json"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/smplfrs/angular-select2.git"
@@ -16,12 +20,25 @@
     "directive"
   ],
   "peerDependencies": {
-    "@angular/common": "^8.2.14",
-    "@angular/core": "^8.2.14",
-    "jquery": "^3.4.1"
+    "@angular/common": "~10.0.14",
+    "@angular/core": "~10.0.14",
+    "jquery": "~3.5.1"
   },
   "dependencies": {
     "select2": "4.0.12"
   },
-  "devDependencies": {}
+  "ngPackage": {
+    "dest": "../../dist/smpl-select2",
+    "lib": {
+      "entryFile": "src/public-api.ts"
+    },
+    "whitelistedNonPeerDependencies": [
+      "tslib",
+      "select2"
+    ]
+  },
+  "devDependencies": {
+    "@angular-devkit/build-ng-packagr": "~0.1000.8",
+    "ng-packagr": "^10.1.0"
+  }
 }
