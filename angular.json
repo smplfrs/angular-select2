@@ -23,6 +23,10 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": false,
+            "allowedCommonJsDependencies": [
+              "jquery",
+              "select2"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"

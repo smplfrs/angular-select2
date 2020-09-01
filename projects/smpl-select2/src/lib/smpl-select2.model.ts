@@ -37,7 +37,7 @@ export interface Select2Config {
 export interface Select2DataSource {
   data?: any[];
 
-  ajaxFn?: Observable<any[]>;
+  ajaxFn?: (searchText?: string) => Observable<any[]>;
   ajaxDelay?: number;
 
   dataTransformFn?: (data: any[]) => Select2Option[];

@@ -19,9 +19,14 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
 
   @Input('smplSelect2') configOptions: Select2Config;
 
-  @Input('static') staticOptionData: boolean = false;
-
   @Input() dataSource: Select2DataSource;
+
+  @Input('static')
+  get staticOptionData() { return this._staticOptionData; }
+  set staticOptionData(staticOptionData: boolean) {
+    this._staticOptionData = staticOptionData !== undefined;
+  }
+  private _staticOptionData: boolean;
 
   @Input() displayProperty: string = 'text';
   @Input() valueProperty: string = 'id';
@@ -34,17 +39,15 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
   private _dataSourceReadySubject = new BehaviorSubject<boolean>(false);
   private _dataSourceReadySubscription: Subscription;
 
-  private _value: any;
   private get value() { return this._value; }
   private set value(newValue: any) {
     if (this._value === newValue) {
       return;
     }
-
     this._value = newValue;
-
     this._triggerChange(this._value);
   }
+  private _value: any;
 
   private _onChanged: any = () => { };
   private _onTouched: any = () => { };
@@ -88,22 +91,24 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
 
     // only set new value when data source is ready
     this._dataSourceReadySubscription = this._dataSourceReadySubject.asObservable().subscribe(rendered => {
-      if (rendered) {
-
-        this.value = newValue;
-
-        if (this.configOptions.multiple) {
-          // sometimes the value is casted into string, thus use '==' instead of '==='
-          // tslint:disable-next-line:triple-equals
-          const selectedOptions = this.configOptions.data.filter(item => (this.value || []).includes(item[this.valueProperty]));
-          this.onSelect.emit(selectedOptions);
-        } else {
-          // sometimes the value is casted into string, thus use '==' instead of '==='
-          // tslint:disable-next-line:triple-equals
-          const selectedOption = this.configOptions.data.find(item => item[this.valueProperty] == this.value);
-          this.onSelect.emit(selectedOption);
-        }
+      if (!rendered) {
+        return;
       }
+
+      this.value = newValue;
+
+      if (this.configOptions.multiple) {
+        // sometimes the value is casted into string, thus use '==' instead of '==='
+        // tslint:disable-next-line:triple-equals
+        const selectedOptions = this.configOptions.data.filter(item => (this.value || []).includes(item[this.valueProperty]));
+        this.onSelect.emit(selectedOptions);
+      } else {
+        // sometimes the value is casted into string, thus use '==' instead of '==='
+        // tslint:disable-next-line:triple-equals
+        const selectedOption = this.configOptions.data.find(item => item[this.valueProperty] == this.value);
+        this.onSelect.emit(selectedOption);
+      }
+
     });
   }
 
@@ -113,6 +118,11 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
 
   registerOnTouched(fn: any): void {
     this._onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    const $element = $(this._el.nativeElement);
+    $element.prop('disabled', isDisabled);
   }
 
   private _setup() {
@@ -230,7 +240,7 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
       delay: dataSource.ajaxDelay,
       data: (params) => {
         const query = {
-          q: params.term
+          searchText: params.term
         };
         return query;
       },
@@ -239,8 +249,8 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
           results: this._transformData(data)
         };
       },
-      transport: (params, success, failure) => {
-        dataSource.ajaxFn.subscribe(
+      transport: (requestData, success, failure) => {
+        dataSource.ajaxFn(requestData.data.searchText).subscribe(
           (data) => {
             this.configOptions.data = data;
             success(data);
