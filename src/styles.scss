@@ -1,1 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
+
+.select2-container--classic .select2-selection--multiple .select2-selection__rendered {
+  width: 100%;
+  box-sizing: border-box;
+}

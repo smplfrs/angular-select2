@@ -35,6 +35,7 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
   private _dataSourceReadySubscription: Subscription;
 
   private _value: any;
+  private get value() { return this._value; }
   private set value(newValue: any) {
     if (this._value === newValue) {
       return;
@@ -88,12 +89,20 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
     // only set new value when data source is ready
     this._dataSourceReadySubscription = this._dataSourceReadySubject.asObservable().subscribe(rendered => {
       if (rendered) {
+
         this.value = newValue;
 
-        // sometimes the value is casted into string, thus use '==' instead of '==='
-        // tslint:disable-next-line:triple-equals
-        const selectedOption = this.configOptions.data.find(item => item[this.valueProperty] == newValue);
-        this.onSelect.emit(selectedOption);
+        if (this.configOptions.multiple) {
+          // sometimes the value is casted into string, thus use '==' instead of '==='
+          // tslint:disable-next-line:triple-equals
+          const selectedOptions = this.configOptions.data.filter(item => (this.value || []).includes(item[this.valueProperty]));
+          this.onSelect.emit(selectedOptions);
+        } else {
+          // sometimes the value is casted into string, thus use '==' instead of '==='
+          // tslint:disable-next-line:triple-equals
+          const selectedOption = this.configOptions.data.find(item => item[this.valueProperty] == this.value);
+          this.onSelect.emit(selectedOption);
+        }
       }
     });
   }
@@ -132,27 +141,43 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
 
   private _registerSelectEvent(): void {
     $(this._el.nativeElement).off('select2:select').on('select2:select', (e) => {
+
+      const selectedValue = e.params.data[this.valueProperty];
+
       if (this.configOptions.multiple) {
-        // TODO: Handle data for multiple selections
+        const value = [...(this.value || []), selectedValue];
+        this.writeValue(value);
       } else {
-        this.writeValue(e.params.data[this.valueProperty]);
+        this.writeValue(selectedValue);
       }
 
       // writeValue() is for programmatic changes, UI changes need some more steps belows
-      this._onChanged(this._value);
-      this._onTouched(this._value);
+      this._onChanged(this.value);
+      this._onTouched(this.value);
     });
   }
 
   private _registerUnselectEvent(): void {
-    // TODO: Handle unselect event for multiple selections
     $(this._el.nativeElement).off('select2:unselect').on('select2:unselect', (e) => {
-      this.writeValue(null);
-      this.onUnselect.emit(e.params.data);
+
+      const unselectedValue = e.params.data[this.valueProperty];
+
+      // sometimes the value is casted into string, thus use '==' instead of '==='
+      // tslint:disable-next-line:triple-equals
+      const unselectedOption = this.configOptions.data.find(item => item[this.valueProperty] == unselectedValue);
+
+      this.onUnselect.emit(unselectedOption);
+
+      if (this.configOptions.multiple) {
+        const value = (this.value || []).filter(item => item != unselectedValue);
+        this.writeValue(value);
+      } else {
+        this.writeValue(null);
+      }
 
       // writeValue() is for programmatic changes, UI changes need some more steps belows
-      this._onChanged(this._value);
-      this._onTouched(this._value);
+      this._onChanged(this.value);
+      this._onTouched(this.value);
     });
   }
 

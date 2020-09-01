@@ -1,14 +1,21 @@
 <h5>Static options</h5>
-<select smplSelect2 [static]="true" style="width: 200px;" (select)="selectOption($event)">
+<select class="example" smplSelect2 [static]="true" (select)="selectOption($event)">
   <option value="1">Option 1</option>
   <option value="2">Option 2</option>
   <option value="3">Option 3</option>
 </select>
 
 <h5>Dynamic data</h5>
-<select smplSelect2 [dataSource]="simpleDataSource" valueProperty="value" displayProperty="title" style="width: 200px;"
-  (select)="selectOption($event)"></select>
+<select class="example" smplSelect2 [dataSource]="simpleDataSource" valueProperty="value" displayProperty="title"
+  (select)="selectOption($event)">
+</select>
 
 <h5>Async data source</h5>
-<select smplSelect2 [dataSource]="asyncDataSource" placeholder="Type something..." style="width: 200px;"
-  (select)="selectOption($event)"></select>
+<select class="example" smplSelect2 [dataSource]="asyncDataSource" placeholder="Type something..."
+  (select)="selectOption($event)">
+</select>
+
+<h5>Multiple selections</h5>
+<select class="example" [smplSelect2]="{multiple: true}" [dataSource]="simpleDataSource" valueProperty="value"
+  displayProperty="title" (select)="selectOption($event)">
+</select>
