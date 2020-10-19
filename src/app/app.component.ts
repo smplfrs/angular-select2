@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
           { value: 4, title: 'Option 4' }
         ]
       };
-    }, 1000);
+    }, 2000);
 
     this.asyncDataSource = {
       ajaxFn: (searchText) => {
@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
           delay(2000)
         );
       },
-      ajaxDelay: 1000
+      ajaxDelay: 2000
     };
   }
 

@@ -147,6 +147,11 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
     };
 
     this.configOptions = Object.assign(defaultOptions, this.configOptions || {});
+
+    // completely remove default behavior of native select
+    $(this._el.nativeElement).bind('keypress', (e) => {
+      e.preventDefault();
+    });
   }
 
   private _registerSelectEvent(): void {
@@ -164,6 +169,11 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
       // writeValue() is for programmatic changes, UI changes need some more steps belows
       this._onChanged(this.value);
       this._onTouched(this.value);
+    });
+
+    $(this._el.nativeElement).on('select2:open', (e) => {
+      $('#a').focus();
+      console.log('focus to #a');
     });
   }
 
@@ -221,6 +231,17 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
   }
 
   private _setupDataSource(): void {
+
+    // Scrolling bug: Select2 has dynamic datasource. Select2 container is a scrollable element other than body.
+    //                Open select2 when data is empty, stay there until data is set.
+    //                Close selection panel. The container is unable to scroll.
+    // Workaround: Disable select2 to prevent opening selection panel before data is set.
+    if (!this.dataSource?.data?.length && !this.dataSource?.ajaxFn) {
+      this.setDisabledState(true);
+    } else {
+      this.setDisabledState(false);
+    }
+
     this.dataSource = this.dataSource || {};
 
     // start a new data source setup process

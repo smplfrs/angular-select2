@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/ng-packagr/package.schema.json",
   "name": "@smplfrs/angular-select2",
-  "version": "0.0.1-beta.3",
+  "version": "0.0.1-beta.4",
   "scripts": {
     "build": "ng-packagr -p package.json"
   },
@@ -30,7 +30,10 @@
   "ngPackage": {
     "dest": "../../dist/smpl-select2",
     "lib": {
-      "entryFile": "src/public-api.ts"
+      "entryFile": "src/public-api.ts",
+      "umdModuleIds": {
+        "jquery": "jquery"
+      }
     },
     "whitelistedNonPeerDependencies": [
       "tslib",
