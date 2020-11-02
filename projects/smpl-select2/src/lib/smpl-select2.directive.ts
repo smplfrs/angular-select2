@@ -49,6 +49,8 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
   }
   private _value: any;
 
+  private _disabled: boolean;
+
   private _onChanged: any = () => { };
   private _onTouched: any = () => { };
 
@@ -121,6 +123,8 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
   }
 
   setDisabledState(isDisabled: boolean): void {
+    this._disabled = isDisabled;
+
     const $element = $(this._el.nativeElement);
     $element.prop('disabled', isDisabled);
   }
@@ -149,8 +153,15 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
     this.configOptions = Object.assign(defaultOptions, this.configOptions || {});
 
     // completely remove default behavior of native select
-    $(this._el.nativeElement).bind('keypress', (e) => {
+    $(this._el.nativeElement).on('keypress', (e) => {
       e.preventDefault();
+    });
+
+    // completely prevent user interaction on disabled
+    $(this._el.nativeElement).on('select2:opening', (e) => {
+      if (this._disabled) {
+        e.preventDefault();
+      }
     });
   }
 
@@ -169,11 +180,6 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
       // writeValue() is for programmatic changes, UI changes need some more steps belows
       this._onChanged(this.value);
       this._onTouched(this.value);
-    });
-
-    $(this._el.nativeElement).on('select2:open', (e) => {
-      $('#a').focus();
-      console.log('focus to #a');
     });
   }
 
