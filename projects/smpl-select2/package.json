@@ -20,8 +20,8 @@
     "directive"
   ],
   "peerDependencies": {
-    "@angular/common": "~10.0.14",
-    "@angular/core": "~10.0.14",
+    "@angular/common": "~11.2.2",
+    "@angular/core": "~11.2.2",
     "jquery": "~3.5.1"
   },
   "dependencies": {
