@@ -46,7 +46,7 @@ import { SmplSelect2Module } from '@smplfrs/angular-select2';
 
 **static-options.component.html**
 ```html
-<select smplSelect2 [static]="true">
+<select smplSelect2 static>
   <option value="1">Option 1</option>
   <option value="2">Option 2</option>
   <option value="3">Option 3</option>
@@ -99,9 +99,9 @@ dataSource = {
 ### Input
 | Name              | Type                                      | Default   | Description  |
 | ------------------|-------------------------------------------|:---------:|--------------|
-| `smplSelect2`     | [Select2Config](#select2config)         |           | Configuration options for the control. |
+| `smplSelect2`     | [Select2Config](#select2config)           |           | Configuration options for the control. |
 | `static`          | boolean                                   | false     | Whether dropdown options should be rendered from html `<options>` tags. |
-| `dataSource`      | [Select2DataSource](#select2datasource) |           | Dynamic data source for dropdown options when `static` is set to `false`. |
+| `dataSource`      | [Select2DataSource](#select2datasource)   |           | Dynamic data source for dropdown options when `static` is set to `false`. |
 | `displayProperty` | string                                    | 'text'    | The property of dropdown option object used to display in selection panel. |
 | `valueProperty`   | string                                    | 'id'      | The property of dropdown option object used as identifier. |
 | `placeholder`     | string                                    | '(NONE)'  | The placeholder for the control. |

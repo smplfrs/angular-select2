@@ -17,9 +17,9 @@ import 'select2';
 })
 export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
 
-  @Input('smplSelect2') configOptions: Select2Config;
+  @Input('smplSelect2') configOptions?: Select2Config;
 
-  @Input() dataSource: Select2DataSource;
+  @Input() dataSource?: Select2DataSource;
 
   @Input('static')
   get staticOptionData() { return this._staticOptionData; }
@@ -28,10 +28,10 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
   }
   private _staticOptionData: boolean;
 
-  @Input() displayProperty: string = 'text';
-  @Input() valueProperty: string = 'id';
+  @Input() displayProperty?: string = 'text';
+  @Input() valueProperty?: string = 'id';
 
-  @Input() placeholder: string = '(NONE)';
+  @Input() placeholder?: string = '(NONE)';
 
   @Output('select') onSelect: EventEmitter<any> = new EventEmitter();
   @Output('unselect') onUnselect: EventEmitter<any> = new EventEmitter();
@@ -190,7 +190,9 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
 
       // sometimes the value is casted into string, thus use '==' instead of '==='
       // tslint:disable-next-line:triple-equals
-      const unselectedOption = this.configOptions.data.find(item => item[this.valueProperty] == unselectedValue);
+      const unselectedOption = this.staticOptionData
+        ? unselectedValue
+        : this.configOptions.data.find(item => item[this.valueProperty] == unselectedValue);
 
       this.onUnselect.emit(unselectedOption);
 
