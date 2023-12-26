@@ -1,7 +1,6 @@
 {
-  "$schema": "./node_modules/ng-packagr/package.schema.json",
   "name": "@smplfrs/angular-select2",
-  "version": "0.0.1-beta.10",
+  "version": "0.0.1-beta.11",
   "repository": {
     "type": "git",
     "url": "https://github.com/smplfrs/angular-select2.git"
@@ -17,13 +16,13 @@
     "directive"
   ],
   "peerDependencies": {
-    "@angular/common": "^14.3.0",
-    "@angular/core": "^14.3.0",
-    "@angular/forms": "^14.3.0",
+    "@angular/common": "^15.0.0",
+    "@angular/core": "^15.0.0",
+    "@angular/forms": "^15.0.0",
     "jquery": "~3.6.0"
   },
   "dependencies": {
-    "select2": "4.0.12",
+    "select2": "4.0.13",
     "tslib": "^2.3.0"
   }
 }
