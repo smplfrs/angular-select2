@@ -49,7 +49,7 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
   }
   private _value: any;
 
-  private _disabled: boolean = true;
+  private _disabled: boolean;
 
   private _onChanged: any = () => { };
   private _onTouched: any = () => { };
@@ -57,8 +57,9 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
   constructor(
     private _el: ElementRef
   ) { }
-
+  
   ngOnInit(): void {
+    this._disabled = !this._staticOptionData;
     this._setup();
   }
 
