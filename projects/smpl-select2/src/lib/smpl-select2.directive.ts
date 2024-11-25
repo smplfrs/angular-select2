@@ -57,7 +57,7 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
   constructor(
     private _el: ElementRef
   ) { }
-  
+
   ngOnInit(): void {
     this._disabled = !this._staticOptionData;
     this._setup();
@@ -128,7 +128,7 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
     //                Open select2 when data is empty, stay there until data is set.
     //                Close selection panel. The container is unable to scroll.
     // Workaround: Disable select2 to prevent opening selection panel before data is set.
-    if (!this.dataSource?.data?.length && !this.dataSource?.ajaxFn) {
+    if (!this.dataSource?.data?.length && !this.dataSource?.ajaxFn && !this._staticOptionData) {
       isDisabled = true;
     }
 
