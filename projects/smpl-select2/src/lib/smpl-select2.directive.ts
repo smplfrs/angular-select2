@@ -73,6 +73,8 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
   }
 
   ngOnDestroy(): void {
+    this._closeAndDestroySelect2(this._el.nativeElement);
+
     if (this._dataSourceReadySubscription) {
       this._dataSourceReadySubscription.unsubscribe();
     }
@@ -127,7 +129,7 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
     //                Open select2 when data is empty, stay there until data is set.
     //                Close selection panel. The container is unable to scroll.
     // Workaround: Disable select2 to prevent opening selection panel before data is set.
-    if (!this.dataSource?.data?.length && !this.dataSource?.ajaxFn) {
+    if (!this.dataSource?.data?.length && !this.dataSource?.ajaxFn && !this._staticOptionData) {
       isDisabled = true;
     }
 
@@ -322,10 +324,7 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
     }
 
     // select2 has been initialized
-    if ($element.hasClass('select2-hidden-accessible')) {
-      $element.select2('close');
-      $element.select2('destroy');
-    }
+    this._closeAndDestroySelect2(this._el.nativeElement);
 
     options.disabled = this._disabled;
     $element.select2(options);
@@ -333,6 +332,14 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
 
   private _triggerChange(value: any): void {
     $(this._el.nativeElement).val(value).trigger('change');
+  }
+
+  private _closeAndDestroySelect2(element: HTMLElement): void {
+    const $element = $(element);
+    if ($element.hasClass('select2-hidden-accessible')) {
+      $element.select2('close');
+      $element.select2('destroy');
+    }
   }
 
 }
