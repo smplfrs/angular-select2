@@ -323,6 +323,7 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
 
     // select2 has been initialized
     if ($element.hasClass('select2-hidden-accessible')) {
+      $element.select2('close');
       $element.select2('destroy');
     }
 
