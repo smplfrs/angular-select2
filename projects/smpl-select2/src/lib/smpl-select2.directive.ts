@@ -327,7 +327,7 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
     // select2 has been initialized
     this._closeAndDestroySelect2(this._el.nativeElement);
 
-    options.disabled = this._disabled;
+    options.disabled = this._disabled || this.configOptions.disabled;
     $element.select2(options);
   }
 
