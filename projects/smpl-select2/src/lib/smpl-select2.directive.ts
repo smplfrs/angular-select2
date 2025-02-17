@@ -174,6 +174,17 @@ export class SmplSelect2Directive implements ControlValueAccessor, OnInit, OnCha
         e.preventDefault();
       }
     });
+
+    // completely prevent default behavior of clear event on closeOnClear
+    $(this._el.nativeElement).on("select2:clear", (e) => {
+      if (this.configOptions.closeOnClear) {
+        $(this._el.nativeElement).on("select2:opening", (evt) => {
+          evt.preventDefault();
+          
+          $(this._el.nativeElement).off("select2:opening");
+        });
+      }
+    });
   }
 
   private _registerSelectEvent(): void {

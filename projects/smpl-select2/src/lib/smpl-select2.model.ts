@@ -8,6 +8,7 @@ export interface Select2Config {
   multiple?: boolean;
   selectOnClose?: boolean;
   closeOnSelect?: boolean;
+  closeOnClear?: boolean;
 
   maximumInputLength?: number;
   maximumSelectionLength?: number;
